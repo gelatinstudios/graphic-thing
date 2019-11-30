@@ -7,7 +7,7 @@ int main() {
 
         SDL_Texture *text = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, 640, 480);
 
-        Uint32 back_buffer[640*480] = {0};
+        Uint32 back_buffer[640*480] = {};
 
         bool running = 1;
         Uint32 offset = 0;
@@ -19,9 +19,11 @@ int main() {
                         }
                 }
 
+                Uint32 *pixel = back_buffer;
                 for (size_t i = 0; i < 480; ++i) {
                         for (size_t j = 0; j < 640; ++j) {
-                                back_buffer[i * 640 + j] = ((i) << 16) | ((j + offset) << 8);
+                                *pixel = ((i) << 16) | ((j + offset) << 8);
+                                ++pixel;
                         }
                 }
                 ++offset;
@@ -31,4 +33,7 @@ int main() {
                 SDL_RenderCopy(rend, text, 0, 0);
                 SDL_RenderPresent(rend);
         }
+
+        SDL_DestroyRenderer(rend);
+        SDL_DestroyWindow(win);
 }
