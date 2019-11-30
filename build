@@ -1,0 +1,2 @@
+#!/bin/bash
+g++ *.cpp -o thing -lSDL2 -g
